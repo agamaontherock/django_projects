@@ -1,0 +1,40 @@
+{% block content %}
+
+
+{% if user.is_authenticated %}
+<h1>Hello, {{ user.username }}!</h1>
+<p>Authenticated as
+    <pre>
+    Username: {{ user.username }}
+    Full name: {{ user.get_full_name }}
+    Email: {{ user.email }}
+    Id: {{ user.id }}
+    Is admin: {{user.is_superuser}}
+    </pre>
+</p>
+
+<form action="{% url "logout" %}" method="post">
+    <label>You are logged in. You can Logout:</label>
+    <button type="submit">Logout</button>
+    {% csrf_token %}
+</form>
+{% else %}
+<h1>Hello, Guest!</h1>
+<p>You are not logged in</p>
+<p>You can <a href="{% url 'login' %}?next={{ request.path }}">Login</a> or 
+    <a href="{% url 'home_app:register' %}?next={{ request.path }}">Register</a> if you like.</p>
+{% endif %}
+
+<h3>Site map:</h3>
+<ul>
+    <li>
+        Go to <a href="{% url 'home_app:open_page' %}">{% url 'home_app:open_page' %}</a>
+            (no login required)
+    </li>
+    <li>
+        Go to <a href="{% url 'home_app:closed_page' %}">{% url 'home_app:closed_page' %}</a>
+            (login required: protected by login_required decorator)
+    </li>
+</ul>
+
+{% endblock%}
