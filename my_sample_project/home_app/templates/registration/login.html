@@ -1,5 +1,5 @@
-{% extends "home_app/base.html" %}
-
+{% extends "home_app/base_bootstrap.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 <h1> Login </h1>
@@ -19,21 +19,12 @@
 
 <form method="post" action="{% url 'login' %}">
 {% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
+{{form | crispy}}
 
-<input type="submit" value="login">
+<button type="submit" value="login">Sumbit</button>
 <input type="hidden" name="next" value="{{ next }}">
 </form>
-
+<br>
 {# Assumes you set up the password_reset view in your URLconf #}
 <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
 <p><a href="{% url 'home_app:register' %}">Not registered? Sign up</a></p>
