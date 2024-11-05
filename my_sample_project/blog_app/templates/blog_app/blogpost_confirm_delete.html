@@ -1,0 +1,9 @@
+
+
+<form action="" method="post">
+    {% csrf_token %}
+    <h3>Are you sure you want to delete Post: "{{ blogpost.title }}"?</h3>
+    <!-- Submit button -->
+    {% comment %} <button type="submit" class="btn btn-primary btn-block">Cancel</button> {% endcomment %}
+    <button type="submit" class="btn btn-primary btn-block">Confirm</button>
+</form>
