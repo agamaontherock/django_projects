@@ -6,10 +6,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class BlogPostCreateView(LoginRequiredMixin, CreateView):
-    """
-    Sub-class of the CreateView to automatically pass the Request to the Form
-    and add the owner to the saved object.
-    """
+    model = BlogPost
+    fields = ["title", "text"]
 
     # Saves the form instance, sets the current object for the view, and redirects to get_success_url().
     def form_valid(self, form):
