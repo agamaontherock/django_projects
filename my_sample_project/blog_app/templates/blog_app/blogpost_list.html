@@ -3,9 +3,9 @@
 {{crazy_thing}}
 {% endif%}
 <ul>
-    {% for blogpost in blogpost_list %}
+    {% for blogpost in page_obj %}
     <li>
-    <a href="{% url 'blog_app:post'  blogpost.id %}">{{ blogpost.title }}</a>
+    <a href="{{blogpost.get_absolute_url}}">{{ blogpost.title }}</a>
     {% if blogpost.owner == user %}
     ( <a href="{% url 'blog_app:update_post' blogpost.id %}">
        Edit</a> | 
@@ -15,3 +15,5 @@
     </li>
     {% endfor %}
 </ul>
+
+{% include 'blog_app/pagination.html' with page=page_obj %}
