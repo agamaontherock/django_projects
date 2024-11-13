@@ -1,8 +1,14 @@
+{%extends 'blog_app/base.html' %}
+
+{% block content %}
 <h1>{{blogpost.title}} </h1>
 <p>
 {{blogpost.text}}
 </p>
 
 <p><i>Owner: {{blogpost.owner}}</i></p>
+<p><i>Status: {{blogpost.get_status_display}}</i></p>
 <p><i>Created at: {{blogpost.updated_at}}</i></p>
+<p><i>Published at: {{blogpost.published_at}}</i></p>
 <p><i>Updated at: {{blogpost.updated_at}}</i></p>
+{%endblock%}

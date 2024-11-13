@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="border-radius:10px !important; background-color: #e3f2fd;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'blog_app:posts' %}">{{ settings.APP_NAME }}</a>
+    <ul class="navbar-nav">
+      {% url 'blog_app:posts' as x %}
+      <li {% if request.get_full_path == x %}class="active"{% endif %}>
+          <a class="nav-link" href="{% url 'blog_app:posts' %}" role="button">All posts</a></li>
+          <li {% if request.get_full_path == x %}class="active"{% endif %}>
+            <a class="nav-link" href="{% url 'blog_app:my_posts' %}" role="button">My posts</a></li>
+    </ul>
+    <ul class="navbar-nav">
+      {% if user.is_authenticated %}
+      <li>
+         <a class="nav-link" href="{% url 'blog_app:create_post' %}">Create Post</a>
+      </li>
+      <li class="nav-item dropdown">
+         <a class="nav-link dropdown-toggle" href="#" id="rightnavDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="rightnavDropdown">
+            <form action="{% url "logout" %}" method="post">
+                <button class="btn btn-link" type="submit">{{user.username}} |Logout</button>
+                {% csrf_token %}
+            </form>
+            {% comment %} <li><a class="dropdown-item" href="{% url 'logout' %}?next={% url 'blog_app:posts' %}">Logout</a></li> {% endcomment %}
+        </ul>
+       </li>
+       {% else %}
+       <li class="nav-item"><a class="nav-link" href="{% url 'login' %}?next={% url 'blog_app:posts' %}">Login</a></li>
+       {% endif %}
+    </ul>
+  </div>
+</nav>
+
+{% comment %} <ul>
+    <li><a href="{% url 'blog_app:posts'%}">All posts</a></li>
+    <li><a href="{% url 'blog_app:my_posts'%}">My posts</a></li>
+    <li><a href="{% url 'blog_app:create_post'%}">Create posts</a></li>
+    {% if user.is_authenticated %}
+    <li>
+        <form action="{% url "logout" %}" method="post">
+            <button type="submit">{{user.username}} |Logout</button>
+            {% csrf_token %}
+        </form>
+    </li>
+    {% else %}
+    <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
+    {% endif%}
+</ul> {% endcomment %}

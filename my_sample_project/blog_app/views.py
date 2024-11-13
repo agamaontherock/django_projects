@@ -6,10 +6,17 @@ from django.shortcuts import get_object_or_404
 from .models import BlogPost
 from django.http import Http404
 from .ownerviews import *
+from django.utils import timezone
 
 class BlogListView(ListView):
     model = BlogPost
-    paginate_by = 2
+    paginate_by = 5
+    queryset = BlogPost.objects.all()
+    
+class MyPostsListView(ListView):
+    model = BlogPost
+    paginate_by = 5
+    queryset = BlogPost.published_objects.all()
 
 class BlogDetailView(DetailView):
     model = BlogPost
@@ -35,11 +42,10 @@ class BlogDeleteView(OwnerDeleteView):
    
 class BlogPostCreateView(OwnerCreateView):
     model = BlogPost
-    fields = ["title", "text"]
+    fields = ["title", "text", "status"]
     success_url = reverse_lazy("blog_app:posts")
     
 class BlogUpdateView(OwnerUpdateView):
     model = BlogPost
     success_url = reverse_lazy("blog_app:posts")
-    fields = ["title", "text"]
-    # fields = "__all__"
+    fields = ["title", "text", "status"]

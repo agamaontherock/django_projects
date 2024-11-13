@@ -1,8 +1,10 @@
+{%extends 'blog_app/base.html' %}
+
+{%block content%}
 <h2>All posts:</h2>
 <ul>
    {% for blogpost in page_obj %}
    <li>
-   {% comment %} <a href="{% url 'blog_app:post'  blogpost.id %}">{{ blogpost.title }}</a> {% endcomment %}
    <a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a>
 
    {% if blogpost.owner == user %}
@@ -32,3 +34,4 @@
        {% endif %}
    </span>
 </div>
+{%endblock%}
