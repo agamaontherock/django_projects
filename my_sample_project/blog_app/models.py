@@ -59,3 +59,12 @@ class BlogPost(models.Model):
                 self.published_at = timezone.now()
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+        
+        
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.CharField(max_length=200)
+    blogpost = models.ForeignKey(BlogPost, related_name="comments", on_delete=models.CASCADE)
+    post_time = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
+    

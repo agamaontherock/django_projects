@@ -11,4 +11,13 @@
 <p><i>Created at: {{blogpost.updated_at}}</i></p>
 <p><i>Published at: {{blogpost.published_at}}</i></p>
 <p><i>Updated at: {{blogpost.updated_at}}</i></p>
+
+<h2>Comments ({{blogpost.comments.count}})</h2>
+{% for comment in blogpost.comments.all %}
+<i>{{comment.post_time}}</i> [<b>{{comment.user.username}}</b>]: {{comment.text}}
+<br/>
+{% endfor %}
+
+{%include 'blog_app/includes/comment_form.html' with post=blogpost %}
+
 {%endblock%}
