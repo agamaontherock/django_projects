@@ -2,10 +2,14 @@
 
 {%block content%}
 <h2>All posts:</h2>
-<ul>
+{% comment %} <ul> {% endcomment %}
    {% for blogpost in page_obj %}
-   <li>
-   <a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a>
+   {% comment %} <li> {% endcomment %}
+   <h2><a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a></h2>
+   <p class="text-muted">
+    Published {{ blogpost.published_at }} by {{ blogpost.owner }}
+    </p>
+   {{ blogpost.text|truncatewords:30 }}
 
    {% if blogpost.owner == user %}
    ( <a href="{% url 'blog_app:update_post' blogpost.id %}">
@@ -13,9 +17,11 @@
    <a href="{% url 'blog_app:delete_post' blogpost.id %}">
       Delete</a>)
    {% endif %}
-   </li>
+   <br/><br/>
+   {% comment %} </li> {% endcomment %}
    {% endfor %}
-</ul>
+   
+{% comment %} </ul> {% endcomment %}
 
 <div class="pagination">
    <span class="step-links">
