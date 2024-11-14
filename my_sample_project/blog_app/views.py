@@ -23,17 +23,17 @@ class BlogPostCreateView(LoginRequiredMixin, CreateView):
     
 class BlogListView(ListView):
     model = BlogPost
-    paginate_by = 2
+    paginate_by = 5
+    queryset = BlogPost.published_objects.all()
     
-    # def get_queryset(self, **kwargs):
-    #    crazy = BlogPost.objects.filter(title__startswith = "Q") # Convention: Car
-    #    return crazy
-
-    # def get_context_data(self, **kwargs):
-    #    context = super().get_context_data(**kwargs)
-    #    context['crazy_thing'] = 'CRAZY THING'
-    #    print(context)
-    #    return context
+class MyPostsListView(ListView):
+    model = BlogPost
+    paginate_by = 5
+    queryset = BlogPost.objects.all()
+    
+    def get_queryset(self, **kwargs):
+       qs = BlogPost.objects.filter(owner = self.request.user)
+       return qs
     
 class BlogDetailView(DetailView):
     model = BlogPost
@@ -60,7 +60,7 @@ class BlogDetailView(DetailView):
 class BlogUpdateView(UpdateView):
     model = BlogPost
     success_url = reverse_lazy("blog_app:posts")
-    fields = ["title", "text"]
+    fields = ["title", "text", "status"]
     
     def get_queryset(self, **kwargs):
        qset = super().get_queryset(**kwargs)
