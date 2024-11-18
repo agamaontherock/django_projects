@@ -1,12 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic.list import ListView
 from django.views.generic import DetailView, UpdateView, DeleteView, CreateView
-from .models import BlogPost
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
 from django.http import Http404
 from django.utils.text import slugify
+from django.views.decorators.http import require_POST
+from django.core.mail import send_mail
+
+from .models import BlogPost
+from .forms import CommentForm, EmailForm
 
 class BlogPostCreateView(LoginRequiredMixin, CreateView):
     model = BlogPost
@@ -37,6 +40,12 @@ class MyPostsListView(ListView):
     
 class BlogDetailView(DetailView):
     model = BlogPost
+    
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['form'] = CommentForm()
+        ctx['email_form'] = EmailForm()
+        return ctx
     
     def get_object(self, queryset=None):
         pk = self.kwargs.get("pk")
@@ -70,3 +79,37 @@ class BlogUpdateView(UpdateView):
 class BlogDeleteView(DeleteView):
     model = BlogPost
     success_url = reverse_lazy("blog_app:posts")
+    
+@require_POST
+def comment_post(request, post_id):
+    form = CommentForm(request.POST)
+    post_obj = get_object_or_404(BlogPost, id = post_id)
+    
+    comment = None
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.post = post_obj
+        comment.user = request.user
+        comment.save()
+        
+    return redirect(post_obj)
+
+@require_POST
+def share_post(request, post_id):
+    post_obj = get_object_or_404(BlogPost, id = post_id)
+    post_abs_url = post_obj.get_absolute_url()
+    
+    form = EmailForm(request.POST)
+    if form.is_valid():
+        data = form.cleaned_data
+        data.text += f"Post url: {post_abs_url}"
+        send_mail(
+            data.subject,
+            data.text,
+            "agamaontherock@gmail.com",
+            [data.to],
+            fail_silently=False,
+        )
+        print(f"@@@ Sending email to {data}")
+    
+    return redirect(post_obj)

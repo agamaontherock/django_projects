@@ -9,5 +9,7 @@ urlpatterns = [
     path('post/<int:year>/<int:month>/<int:day>/<slug:slug_id>', BlogDetailView.as_view(), name='post_by_slug'),
     path('delete_post/<int:pk>', BlogDeleteView.as_view(), name='delete_post'),
     path('update_post/<int:pk>', BlogUpdateView.as_view(), name='update_post'),
-    path('create_post/', BlogPostCreateView.as_view(), name="create_post")
+    path('create_post/', BlogPostCreateView.as_view(), name="create_post"),
+    path('comment_post/<int:post_id>', comment_post, name="comment_post"),
+    path('share_post/<int:post_id>', share_post, name="share_post")
 ]

@@ -4,6 +4,7 @@ from django.core.validators import *
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 class PublishedPostsManager(models.Manager):
     def get_queryset(self):
@@ -57,3 +58,10 @@ class BlogPost(models.Model):
     
     def __str__(self):
         return self.title
+    
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(BlogPost, on_delete=models.CASCADE, 
+                             related_name="comments")
+    text = models.CharField(max_length=300)
+    created_at = models.DateTimeField(auto_now_add=True)

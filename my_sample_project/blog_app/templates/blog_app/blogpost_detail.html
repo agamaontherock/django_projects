@@ -11,3 +11,26 @@
 <p><i>Created on {{blogpost.created_at}}</i></p>
 <p><i>Updated on {{blogpost.updated_at}}</i></p>
 <p><i>Published on {{blogpost.published_at}}</i></p>
+
+<h3>Share</h3>
+<form method="post" action="{% url 'blog_app:share_post' blogpost.id %}">
+    {% csrf_token %}
+    {{ email_form.as_p }}
+    <input type="submit" value="Send">
+</form>
+
+<h2>Comments:</h2>
+
+{% for comment in blogpost.comments.all %}
+{{comment.created_at}} Comment from {{comment.user}}:
+<br/>
+{{comment.text}}
+<br/><br/>
+{% endfor %}
+
+<form method="post" action="{% url 'blog_app:comment_post' blogpost.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Add comment">
+</form>
+
