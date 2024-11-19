@@ -1,0 +1,12 @@
+{% extends "home_app/base_bootstrap.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{form | crispy}}
+    <input type="submit" value="Send e-mail">
+</form>
+
+{% endblock %}
