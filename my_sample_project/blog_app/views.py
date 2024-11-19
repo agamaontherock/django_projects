@@ -67,6 +67,7 @@ def post_comment(request, post_id):
     if form.is_valid():
         comment = form.save(commit=False)
         comment.blogpost = post
+        comment.user = request.user
         comment.save()
         
     return render(request,
