@@ -102,14 +102,14 @@ def share_post(request, post_id):
     form = EmailForm(request.POST)
     if form.is_valid():
         data = form.cleaned_data
-        data.text += f"Post url: {post_abs_url}"
+        text = data["text"] + f"Post url: {post_abs_url}"
         send_mail(
-            data.subject,
-            data.text,
+            data["subject"],
+            text,
             "agamaontherock@gmail.com",
-            [data.to],
+            [data["to"]],
             fail_silently=False,
         )
-        print(f"@@@ Sending email to {data}")
+        # print(f"@@@ Sending email to {data}")
     
     return redirect(post_obj)
