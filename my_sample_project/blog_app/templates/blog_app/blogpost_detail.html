@@ -35,5 +35,11 @@
 
 {%include 'blog_app/includes/comment_form.html' with post=blogpost %}
 
-{%endblock%}
-
+<h2>Similar posts</h2>
+{% for blogpost in similar_posts %}
+<p>
+<a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a>
+</p>
+{% empty %}
+There are no similar posts yet.
+{% endfor %}

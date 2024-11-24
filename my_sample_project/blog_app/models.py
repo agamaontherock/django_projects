@@ -5,6 +5,8 @@ from django.utils.text import slugify
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from taggit.managers import TaggableManager
+
 class PublishedPostsManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(status=BlogPost.PublicationStatus.PUBLISHED)
@@ -34,6 +36,8 @@ class BlogPost(models.Model):
     
     objects = models.Manager()
     published_objects = PublishedPostsManager()
+    
+    tags = TaggableManager()
     
     def __str__(self):
         return self.title + " | by " + self.owner.username

@@ -17,8 +17,13 @@
    <a href="{% url 'blog_app:delete_post' blogpost.id %}">
       Delete</a>)
    {% endif %}
-   <br/><br/>
-   {% comment %} </li> {% endcomment %}
+   <br/>
+   {% for tag in blogpost.tags.all %}
+    <a href="{% url "blog_app:post_list_by_tag" tag.slug %}">
+    {{ tag.name }}
+    </a>{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+   </li>
    {% endfor %}
    
 {% comment %} </ul> {% endcomment %}

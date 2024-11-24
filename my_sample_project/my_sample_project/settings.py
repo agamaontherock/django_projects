@@ -31,9 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'hello_app',
-    'home_app',
-    'blog_app',
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.contenttypes',
@@ -43,7 +40,12 @@ INSTALLED_APPS = [
      # Extensions - installed with requirements.txt
     'django_extensions', 
     'crispy_forms',  
-    'crispy_bootstrap5',  
+    'crispy_bootstrap5',
+    'taggit',
+    # User-defined apps
+    'hello_app',
+    'home_app',
+    'blog_app',  
 ]
 
 MIDDLEWARE = [
