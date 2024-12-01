@@ -5,6 +5,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 
+from .forms import *
+from .models import Profile
+
 # Create your views here.
 def home(request):
     return render(request, "home_app/home.html")
@@ -14,6 +17,7 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            Profile.objects.create(user=user)
             login(request, user)  # Log in the user immediately after registration
             return redirect('home_app:home')  # Redirect to a 'home' page after registration
     else:
@@ -26,3 +30,7 @@ def open_page(request):
 @login_required
 def closed_page(request):
     return HttpResponse("<h1>Closed page</h1><p>This page is available only to authorized users. <br> You are definitely authorized if you see this page.</p>")
+
+@login_required
+def edit(request):
+    pass
