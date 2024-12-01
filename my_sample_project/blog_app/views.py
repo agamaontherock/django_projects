@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from django.core.mail import send_mail
+from django.contrib import messages
 
 from .ownerviews import *
 from .forms import *
@@ -70,6 +71,8 @@ def post_comment(request, post_id):
         comment.blogpost = post
         comment.user = request.user
         comment.save()
+        
+        messages.add_message(request, messages.WARNING, "Comment was added.")
         
     return render(request,
                   'blog_app/comment.html',
