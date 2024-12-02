@@ -26,3 +26,10 @@ def open_page(request):
 @login_required
 def closed_page(request):
     return HttpResponse("<h1>Closed page</h1><p>This page is available only to authorized users. <br> You are definitely authorized if you see this page.</p>")
+
+def edit_account(request):
+    return render(request, 
+                  'registration/account_edit.html',
+                  {
+                      
+                  })
