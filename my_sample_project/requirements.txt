@@ -2,3 +2,7 @@ django-crispy-forms
 crispy-bootstrap5
 django_extensions
 python-decouple
+social-auth-app-django
+django-extensions
+werkzeug
+pyOpenSSL==24.1.0
