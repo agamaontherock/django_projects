@@ -3,6 +3,10 @@
 
 {% if user.is_authenticated %}
 <h1>Hello, {{ user.username }}!</h1>
+{% if user.profile.photo %}
+<img src="{{user.profile.photo.url}}" />
+{% endif %}
+
 <p>Authenticated as
     <pre>
     Username: {{ user.username }}
@@ -18,6 +22,7 @@
     <button type="submit">Logout</button>
     {% csrf_token %}
 </form>
+<a href="{% url 'home_app:edit_account' %}">Edit account</a>
 {% else %}
 <h1>Hello, Guest!</h1>
 <p>You are not logged in</p>
