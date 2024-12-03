@@ -18,7 +18,9 @@ def register(request):
         if form.is_valid():
             user = form.save()
             Profile.objects.create(user=user)
-            login(request, user)  # Log in the user immediately after registration
+            login(request,
+                  user,
+                  backend='home_app.authentication.EmailAuthBackend')  # Log in the user immediately after registration
             return redirect('home_app:home')  # Redirect to a 'home' page after registration
     else:
         form = UserCreationForm()
