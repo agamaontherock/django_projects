@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-42kb)k9x$s0j0d!i%a-izs8fhczcf()nj)bbv+d&tds$e(kf$p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_extensions', 
     'crispy_forms',  
     'crispy_bootstrap5',  
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -145,11 +146,19 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default="")
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('GOOGLE_OAUTH2_KEY', default = "")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('GOOGLE_OAUTH2_SECRET', default = "")
+
 MEDIA_URL = 'media/'
 MEDIA_ROOT =  BASE_DIR / 'media'
 
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'home_app.authentication.EmailAuthBackend'
+    'home_app.authentication.EmailAuthBackend',
 ]
+
+if SOCIAL_AUTH_GOOGLE_OAUTH2_KEY and SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET:
+    AUTHENTICATION_BACKENDS.append('social_core.backends.google.GoogleOAuth2')
+else:
+    print("Google oAuth is not configured!")

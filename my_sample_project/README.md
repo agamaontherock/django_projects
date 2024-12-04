@@ -19,3 +19,10 @@ To enable the "Share by Email" feature, you need to create a .env file in the ro
     EMAIL_HOST_PASSWORD="<your app password>"
     EMAIL_HOST_USER = "<your email address>"
     DEFAULT_FROM_EMAIL = "<your email address>"
+
+### Social login
+#### Google
+To enable Google oAuth2.0 specify following parameters in your .env file:
+
+    GOOGLE_OAUTH2_KEY=<>
+    GOOGLE_OAUTH2_SECRET=
