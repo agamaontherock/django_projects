@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'crispy_forms',  
     'crispy_bootstrap5',  
     'social_django',
+    # My apps
+    'bookmark_app',
 ]
 
 MIDDLEWARE = [
