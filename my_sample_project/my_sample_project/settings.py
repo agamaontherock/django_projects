@@ -41,11 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     # Extensions - installed with requirements.txt
+    # Extensions - installed with requirements.txt
     'django_extensions', 
     'crispy_forms',  
     'crispy_bootstrap5',  
     'social_django',
+    # My applications
+    'bookmarks_app',
 ]
 
 MIDDLEWARE = [
