@@ -96,8 +96,7 @@ def share_by_email(request, post_id):
                 subject,
                 text,
                 from_email=None,
-                recipient_list=[email_to],
-                fail_silently=False,
+                recipient_list=[email_to]
             )    
     else:
         form = EmailForm()
