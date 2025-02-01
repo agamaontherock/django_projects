@@ -3,3 +3,7 @@ crispy-bootstrap5
 django_extensions
 python-decouple
 Pillow
+social-auth-app-django
+easy_thumbnails
+Werkzeug
+pyOpenSSL

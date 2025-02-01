@@ -15,12 +15,12 @@ class BlogPost(models.Model):
         ordering = ['-published_at']
     
     class PublicationStatus(models.TextChoices):
-        DRAFT = "D", _("Draft")
-        PUBLISHED = "P", _("Published")
+        DRAFT = "D", "Draft"
+        PUBLISHED = "P", "Published"
 
     status = models.CharField(
         max_length=1,
-        choices=PublicationStatus,
+        choices=PublicationStatus.choices,
         default=PublicationStatus.DRAFT,
     )
     
