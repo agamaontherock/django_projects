@@ -32,6 +32,8 @@ ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    
     'hello_app',
     'home_app',
     'blog_app',
@@ -49,6 +51,9 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     # My applications
     'bookmarks_app',
+    'chat_app',
+    'myshop',
+    # 'liqpay',
 ]
 
 MIDDLEWARE = [
@@ -165,3 +170,32 @@ if SOCIAL_AUTH_GOOGLE_OAUTH2_KEY and SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET:
     AUTHENTICATION_BACKENDS.append('social_core.backends.google.GoogleOAuth2')
 else:
     print("Google oAuth is not configured!")
+    
+    
+ASGI_APPLICATION = 'my_sample_project.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)],
+        },
+    },
+}
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    BASE_DIR / "myshop/static",
+]
+
+CART_SESSION_ID = 'cart'
+
+# print("BASE_DIR: ", BASE_DIR)
+
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+STRIPE_API_VERSION = '2024-04-10'
+
+# LiqPay Configuration
+LIQPAY_PUBLIC_KEY = config('LIQPAY_PUBLIC_KEY', default = "")
+LIQPAY_PRIVATE_KEY = config('LIQPAY_PRIVATE_KEY', default = "")

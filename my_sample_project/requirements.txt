@@ -7,3 +7,10 @@ social-auth-app-django
 easy_thumbnails
 Werkzeug
 pyOpenSSL
+celery
+daphne
+liqpay-python
+stripe
+channels
+djangorestframework
+liqpay-sdk-python3

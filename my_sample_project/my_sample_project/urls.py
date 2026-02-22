@@ -23,9 +23,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("home_app.urls")),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', include('blog_app.urls')),
+    path('blog/', include('blog_app.urls')),
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('images/', include('bookmarks_app.urls', namespace='images')),
+    path('chat/', include('chat_app.urls')),
+    path('shop/', include('myshop.urls', namespace='shop')),
 ]
 
 if settings.DEBUG:

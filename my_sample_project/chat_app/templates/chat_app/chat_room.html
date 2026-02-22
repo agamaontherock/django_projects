@@ -1,0 +1,52 @@
+{% extends "bookmarks_app/base.html" %}
+{% block title %}Chat room for "{{ topic.name }}"{% endblock %}
+{% block content %}
+<div id="chat">
+    {% for msg in last_message%}
+    <div class="message"> +
+        <strong> {{msg.user.username}} </strong> 
+        <span class="date"> {{msg.sent_on |date:"Y.m.d H:i A"}} </span><br> 
+        {{msg.message}}</div>
+    {% endfor%}
+</div>
+<div id="chat-input">
+    <input id="chat-message-input" type="text">
+    <input id="chat-message-submit" type="submit" value="Send">
+</div>
+{% endblock %}
+{% block include_js %}
+{% endblock %}
+{% block domready %}
+{% comment %} const courseId = JSON.parse(document.getElementById('course-id').textContent); {% endcomment %}
+const url = 'ws://' + window.location.host + '/ws/chat/room/' + {{ topic.id }} + '/';
+
+const chatSocket = new WebSocket(url);
+
+
+chatSocket.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        const chat = document.getElementById('chat');
+        const username = data.user;
+        const datetime = data.sent_on;
+        chat.innerHTML += '<div class="message">' +
+        '<strong>' + username + '</strong> ' + '<span class="date">' + datetime + '</span><br>' +
+        data.message + '</div>';
+        chat.scrollTop = chat.scrollHeight;
+    };
+chatSocket.onclose = function(event) {
+    console.error('Chat socket closed unexpectedly');
+};
+
+const input = document.getElementById('chat-message-input');
+const submitButton = document.getElementById('chat-message-submit');
+submitButton.addEventListener('click', function(event) {
+    const message = input.value;
+    if(message) {
+        // send message in JSON format
+        chatSocket.send(JSON.stringify({'message': message}));
+        // clear input
+        input.value = '';
+        input.focus();
+    }
+});
+{% endblock %}

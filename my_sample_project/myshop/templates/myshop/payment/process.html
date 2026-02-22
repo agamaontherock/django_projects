@@ -1,0 +1,69 @@
+{% extends "myshop/base.html" %}
+{% load static %}
+
+{% block title %}Pay your order{% endblock %}
+
+{% block content %}
+  <h1>Order summary</h1>
+  <table class="cart">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in order.items.all %}
+        <tr class="row{% cycle "1" "2" %}">
+          <td>
+            <img src="{% if item.product.image %}{{ item.product.image.url }}
+            {% else %}{% static "img/no_image.png" %}{% endif %}">
+          </td>
+          <td>{{ item.product.name }}</td>
+          <td class="num">${{ item.price }}</td>
+          <td class="num">{{ item.quantity }}</td>
+          <td class="num">${{ item.get_cost }}</td>
+        </tr>
+      {% endfor %}
+      <tr class="total">
+        <td colspan="4">Total</td>
+        <td class="num">${{ order.get_total_cost }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <form action="{% url "shop:payment_process" %}" method="post">
+    <input type="submit" value="Pay now with Stipe">
+    {% csrf_token %}
+  </form>
+
+  <br><br>
+  {{ liqpay_form |safe}}
+
+  <form method="post" action="https://secure.wayforpay.com/pay" accept-charset="utf-8">
+    <input name="merchantAccount" value="test_merch_n1">
+    <input name="merchantAuthType" value="SimpleSignature">
+    <input name="merchantDomainName" value="www.market.ua">
+    <input name="orderReference" value="DH1741070259">
+    <input name="orderDate" value="1415379863">
+    <input name="amount" value="1547.36">
+    <input name="currency" value="UAH">
+    <input name="orderTimeout" value="49000">
+    <input name="productName[]" value="Процесор Intel Core i5-4670 3.4GHz">
+    <input name="productName[]" value="Kingston DDR3-1600 4096MB PC3-12800">
+    <input name="productPrice[]" value="1000">
+    <input name="productPrice[]" value="547.36">
+    <input name="productCount[]" value="1">
+    <input name="productCount[]" value="1">
+    <input name="clientFirstName" value="Василь">
+    <input name="clientLastName" value="Пібаренко">
+    <input name="clientAddress" value="пр. Науки, 12">
+    <input name="clientCity" value="Дніпро">
+    <input name="clientEmail" value="some@mail.com">
+    <input name="defaultPaymentSystem" value="card">
+    <input name="merchantSignature" value="e428869c6944e82385b3556ab1739dfc">
+    <input type="submit" value="Test">
+  </form>
+{% endblock %}
